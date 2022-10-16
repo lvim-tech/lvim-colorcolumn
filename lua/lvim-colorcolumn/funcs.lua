@@ -64,7 +64,13 @@ M.update = function()
 		strwidth = vim.api.nvim_strwidth(line)
 		vim.api.nvim_buf_clear_namespace(curbuf, NS, lnum, lnum + 1)
 		for _, item in ipairs(items) do
-			if strwidth < item or vim.fn.strpart(line, item - 1, 1) == " " then
+			local ok, result = pcall(function()
+				return vim.fn.strpart(line, item - 1, 1)
+			end)
+			if not ok then
+				return
+			end
+			if strwidth < item or result == " " then
 				vim.api.nvim_buf_set_extmark(curbuf, NS, lnum, 0, {
 					virt_text = { { config.char, "VirtColumn" } },
 					hl_mode = "combine",
