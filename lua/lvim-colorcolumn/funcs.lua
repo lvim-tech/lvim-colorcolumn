@@ -82,7 +82,7 @@ M.update = function()
 	end
 end
 
-M.refresh = function(args)
+M.refresh = function()
 	M.update()
 end
 
